@@ -1,5 +1,5 @@
-export interface MovieNowPlaying {
-    dates:         Dates;
+export interface GeneralMovies {
+    dates?:         Dates;
     page:          number;
     results:       Movie[];
     total_pages:   number;

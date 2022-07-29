@@ -1,31 +1,44 @@
+import { useNavigation } from '@react-navigation/core';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Movie } from '../interfaces/MovieNowPlaying';
+import { RootStackParams } from '../navigation/Navigation';
 
 
 interface Props{
-    movie: Movie
+    movie: Movie,
+    height?: number,
+    width?: number
 }
+type DetailScreenNavigationProp = StackNavigationProp<RootStackParams, any>
 
-export const MoviePoster = ({ movie}: Props) => {
+export const MoviePoster = ({ movie, height = 420, width = 300 }: Props) => {
     const uri = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+
+    const navigation = useNavigation<DetailScreenNavigationProp>();
+
     return (
-        <View style={styles.imageContainer}>
+        <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={ ()=> navigation.navigate("DetailScreen", movie) }
+            style={{
+                width,
+                height,
+                marginHorizontal: 5
+            }}
+        >
             <View style={styles.imageWrapper}>
                 <Image 
                     source={{uri}}
                     style={styles.image}
                 />
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
 const styles = StyleSheet.create({
-    imageContainer: {
-        width: 300,
-        height: 420
-    },
     imageWrapper:{
         flex: 1,
         borderRadius: 18,
